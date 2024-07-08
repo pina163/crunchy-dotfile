@@ -40,10 +40,6 @@ version = 2
 	foreground = "red"
 	template = "❯"
 
-[transient_prompt]
-	foreground = "red"
-	template = "❯ "
-
 [secondary_prompt]
 	foreground = "red"
 	template = "❯❯ "
