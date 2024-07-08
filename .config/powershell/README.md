@@ -1,0 +1,1 @@
+to set-up use init.ps1 with administrator

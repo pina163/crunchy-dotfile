@@ -1,0 +1,1 @@
+New-Item -ItemType SymbolicLink -Value "$(Get-Location)" -Path "$(Split-Path $PROFILE.CurrentUserCurrentHost)"
