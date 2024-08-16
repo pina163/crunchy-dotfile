@@ -8,7 +8,7 @@ version = 2
 [[blocks.segments]]
 	type = "path"
 	style = "plain"
-	foreground = "lightCyan"
+	foreground = "lightBlue"
 	template = "{{ if .Root }}<red><i>{{ .Path }}</i>{{ else }}{{ .Path }}{{ end }}"
 [blocks.segments.properties]
 	style = "full"
@@ -36,9 +36,9 @@ version = 2
 [[blocks.segments]]
 	type = "text"
 	style = "plain"
-	foreground = "red"
-	template = "❯"
+	foreground = "yellow"
+	template = "$"
 
 [secondary_prompt]
-	foreground = "red"
-	template = "❯❯ "
+	foreground = "yellow"
+	template = "$ "
