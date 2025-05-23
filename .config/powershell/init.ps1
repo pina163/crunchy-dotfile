@@ -1,4 +1,3 @@
-#Requires -RunAsAdministrator
 $ConfigPath = "$(Get-Location)"
 Write-Debug $ConfigPath
 
@@ -13,4 +12,8 @@ if (Test-Path $PowershellProfilePath) {
     Exit
 }
 $PowershellDirectoryPath = $(Split-Path -Path $PowershellProfilePath)
-New-Item -ItemType SymbolicLink -Value $ConfigPath -Path $PowershellDirectoryPath
+# Use Junction substitute of `-ItemType SymbolicLink`
+New-Item -ItemType Junction -Value $ConfigPath -Path $PowershellDirectoryPath
+
+Write-Output "Reload Profile.."
+. $PowershellProfilePath
