@@ -131,8 +131,8 @@ fi
 # bright white		\[\e[97m\]
 
 # custom prompt
-source ~/.git-prompt.sh
-PS1='\[\e[36m\]\u\[\e[0m\] \[\e[90m\]@\[\e[0m\] \[\e[32m\]\H\[\e[0m\] \[\e[90m\]in\[\e[0m\] \[\e[93m\]\w\[\e[0m\] $(__git_ps1 "\[\e[90m\]on \[\e[37m\]git:\[\e[36m\][%s] ")\[\e[0m\]\[\e[90m\][\t]\[\e[0m\]\n\[\e[31m\]$\[\e[0m\] '
+# source ~/.git-prompt.sh
+PS1='\[\e[32m\]\u@\H\[\e[0m\] \[\e[34m\]\w\[\e[0m\] $(__git_ps1 "\[\e[90m\]%s ")\[\e[0m\]\[\e[37m\][\t]\[\e[0m\]\n\[\e[33m\]$\[\e[0m\] '
 
 
 # zoxide config
