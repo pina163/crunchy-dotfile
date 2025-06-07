@@ -132,7 +132,16 @@ fi
 
 # custom prompt
 # source ~/.git-prompt.sh
-PS1='\[\e[32m\]\u@\H\[\e[0m\] \[\e[34m\]\w\[\e[0m\] $(__git_ps1 "\[\e[90m\]%s ")\[\e[0m\]\[\e[37m\][\t]\[\e[0m\]\n\[\e[33m\]$\[\e[0m\] '
+function _left_prompt() {
+	printf "%s" "\[\e[32m\]\u@\H\[\e[0m\] \[\e[34m\]\w\[\e[0m\] $(__git_ps1 "\[\e[90m\]%s ")\[\e[0m\]\n"
+}
+
+function _full_prompt() {
+	printf "%s%s%s" "$(_left_prompt)" "\[\e[33m\]$\[\e[0m\] "
+}
+export PS1="$(_full_prompt)"
+
+# PS1="\[\e[32m\]\u@\H\[\e[0m\] \[\e[34m\]\w\[\e[0m\] $(__git_ps1 "\[\e[90m\]%s ")\[\e[0m\]\[\e[37m\][\t]\[\e[0m\]\n\[\e[33m\]$\[\e[0m\] "
 
 
 # zoxide config
