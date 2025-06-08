@@ -4,5 +4,5 @@ if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {
 }
 if (Get-Command zoxide -ErrorAction SilentlyContinue) {
     Invoke-Expression (& { (zoxide init powershell | Out-String) })
-    Set-Alias -Name cd -Value z -Option AllScope -Scope Global -Force
+    # Set-Alias -Name cd -Value z -Option AllScope -Scope Global -Force
 }
