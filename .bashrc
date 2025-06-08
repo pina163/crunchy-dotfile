@@ -132,69 +132,40 @@ fi
 
 # custom prompt
 # source ~/.git-prompt.sh
+# ${EPOCHREALTIME/[^0-9]/}
+
+# Function to calculate and update the prompt
+# not work properly
+function _update_ps1_with_timer() {
+    local now_in_us="${EPOCHREALTIME/./}"
+    local elapsed_us=$((now_in_us - _last_command_start))
+	local elapsed_ms=$((elapsed_us/1000))
+	echo "$_last_command_start , $now_in_us\n"
+	if [[ $elapsed_ms -lt 1 ]]; then
+		echo ""
+	else 
+		echo "$elapsed_ms"ms
+	fi
+}
+
 function _left_prompt() {
-	printf "%s" "\[\e[32m\]\u@\H\[\e[0m\] \[\e[34m\]\w\[\e[0m\] $(__git_ps1 "\[\e[90m\]%s ")\[\e[0m\]\n"
+	printf "%s" "\[\e[32m\]\u@\H\[\e[0m\] \[\e[34m\]\w\[\e[0m\] $(__git_ps1 "\[\e[90m\]%s ")\[\e[0m\]"
+}
+
+function _prompt() {
+	echo "\[\e[33m\]\$\[\e[0m\] "
 }
 
 function _full_prompt() {
-	printf "%s%s%s" "$(_left_prompt)" "\[\e[33m\]$\[\e[0m\] "
+	PS1="$(_left_prompt) \n$(_prompt)"
+	# _last_command_start=${EPOCHREALTIME/./}
 }
-export PS1="$(_full_prompt)"
 
+_last_command_start=${EPOCHREALTIME/./}
+PROMPT_COMMAND="_full_prompt"
+# _last_command_start=${EPOCHREALTIME/[^0-9]/}
 # PS1="\[\e[32m\]\u@\H\[\e[0m\] \[\e[34m\]\w\[\e[0m\] $(__git_ps1 "\[\e[90m\]%s ")\[\e[0m\]\[\e[37m\][\t]\[\e[0m\]\n\[\e[33m\]$\[\e[0m\] "
 
 
 # zoxide config
-_z_cd() {
-    cd "$@" || return "$?"
-
-    if [ "$_ZO_ECHO" = "1" ]; then
-        echo "$PWD"
-    fi
-}
-
-z() {
-    if [ "$#" -eq 0 ]; then
-        _z_cd ~
-    elif [ "$#" -eq 1 ] && [ "$1" = '-' ]; then
-        if [ -n "$OLDPWD" ]; then
-            _z_cd "$OLDPWD"
-        else
-            echo 'zoxide: $OLDPWD is not set'
-            return 1
-        fi
-    else
-        _zoxide_result="$(zoxide query -- "$@")" && _z_cd "$_zoxide_result"
-    fi
-}
-
-zi() {
-    _zoxide_result="$(zoxide query -i -- "$@")" && _z_cd "$_zoxide_result"
-}
-
-
-alias za='zoxide add'
-
-alias zq='zoxide query'
-alias zqi='zoxide query -i'
-
-alias zr='zoxide remove'
-zri() {
-    _zoxide_result="$(zoxide query -i -- "$@")" && zoxide remove "$_zoxide_result"
-}
-
-
-_zoxide_hook() {
-    if [ -z "${_ZO_PWD}" ]; then
-        _ZO_PWD="${PWD}"
-    elif [ "${_ZO_PWD}" != "${PWD}" ]; then
-        _ZO_PWD="${PWD}"
-        zoxide add "$(pwd -L)"
-    fi
-}
-
-case "$PROMPT_COMMAND" in
-    *_zoxide_hook*) ;;
-    *) PROMPT_COMMAND="_zoxide_hook${PROMPT_COMMAND:+;${PROMPT_COMMAND}}" ;;
-esac
-
+eval "$(zoxide init bash)"
