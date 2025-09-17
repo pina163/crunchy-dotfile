@@ -4,8 +4,8 @@
 
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-      *) return;;
+	*i*) ;;
+	  *) return;;
 esac
 
 # don't put duplicate lines or lines starting with space in the history.
@@ -32,12 +32,12 @@ shopt -s checkwinsize
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
+	debian_chroot=$(cat /etc/debian_chroot)
 fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
+	xterm-color|*-256color) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -46,42 +46,42 @@ esac
 #force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+	if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
 	# We have color support; assume it's compliant with Ecma-48
 	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
 	# a case would tend to support setf rather than setaf.)
 	color_prompt=yes
-    else
+	else
 	color_prompt=
-    fi
+	fi
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+	PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+	PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
+	PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+	;;
 *)
-    ;;
+	;;
 esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
+	test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+	alias ls='ls --color=auto'
+	#alias dir='dir --color=auto'
+	#alias vdir='vdir --color=auto'
 
-    #alias grep='grep --color=auto'
-    #alias fgrep='fgrep --color=auto'
-    #alias egrep='egrep --color=auto'
+	#alias grep='grep --color=auto'
+	#alias fgrep='fgrep --color=auto'
+	#alias egrep='egrep --color=auto'
 fi
 
 # colored GCC warnings and errors
@@ -98,7 +98,7 @@ fi
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
 if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+	. ~/.bash_aliases
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -106,66 +106,22 @@ fi
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
+	. /usr/share/bash-completion/bash_completion
   elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
+	. /etc/bash_completion
   fi
 fi
 
-# reset 			\[\e[0m\]
-# black 			\[\e[30m\]
-# red 				\[\e[31m\]
-# green 			\[\e[32m\]
-# yellow 			\[\e[33m\]
-# blue 				\[\e[34m\]
-# purple 			\[\e[35m\]
-# cyan 				\[\e[36m\]
-# white				\[\e[37m\]
-# bright black		\[\e[90m\]
-# bright red		\[\e[91m\]
-# bright green		\[\e[92m\]
-# bright yellow		\[\e[93m\]
-# bright blue		\[\e[94m\]
-# bright purple		\[\e[95m\]
-# bright cyan		\[\e[96m\]
-# bright white		\[\e[97m\]
+if command -v zoxide &>/dev/null; then
+	eval "$(zoxide init bash)"
+fi
 
-# custom prompt
-# source ~/.git-prompt.sh
-# ${EPOCHREALTIME/[^0-9]/}
+if command -v nvm &>/dev/null; then
+	export NVM_DIR="$HOME/.nvm"
+	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+fi
 
-# Function to calculate and update the prompt
-# not work properly
-function _update_ps1_with_timer() {
-    local now_in_us="${EPOCHREALTIME/./}"
-    local elapsed_us=$((now_in_us - _last_command_start))
-	local elapsed_ms=$((elapsed_us/1000))
-	echo "$_last_command_start , $now_in_us\n"
-	if [[ $elapsed_ms -lt 1 ]]; then
-		echo ""
-	else 
-		echo "$elapsed_ms"ms
-	fi
-}
-
-function _left_prompt() {
-	printf "%s" "\[\e[32m\]\u@\H\[\e[0m\] \[\e[34m\]\w\[\e[0m\] $(__git_ps1 "\[\e[90m\]%s ")\[\e[0m\]"
-}
-
-function _prompt() {
-	echo "\[\e[33m\]\$\[\e[0m\] "
-}
-
-function _full_prompt() {
-	PS1="$(_left_prompt) \n$(_prompt)"
-	# _last_command_start=${EPOCHREALTIME/./}
-}
-
-_last_command_start=${EPOCHREALTIME/./}
-PROMPT_COMMAND="_full_prompt"
-# _last_command_start=${EPOCHREALTIME/[^0-9]/}
-# PS1="\[\e[32m\]\u@\H\[\e[0m\] \[\e[34m\]\w\[\e[0m\] $(__git_ps1 "\[\e[90m\]%s ")\[\e[0m\]\[\e[37m\][\t]\[\e[0m\]\n\[\e[33m\]$\[\e[0m\] "
-
-
-# zoxide config
-eval "$(zoxide init bash)"
+if command -v oh-my-posh &>/dev/null; then
+	eval "$(oh-my-posh init bash --config ~/crunchy-dotfile/.config/ohmyposh/lean.omp.toml)"
+fi
