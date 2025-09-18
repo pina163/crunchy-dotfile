@@ -131,3 +131,10 @@ fi
 if command -v oh-my-posh &>/dev/null; then
 	eval "$(oh-my-posh init bash --config ~/crunchy-dotfile/.config/ohmyposh/lean.omp.toml)"
 fi
+
+# kubectl
+if command -v kubetctl &>/dev/null; then
+	source <(kubectl completion bash)
+	alias k=kubectl
+	complete -o default -F __start_kubectl k
+fi
