@@ -138,3 +138,8 @@ if command -v kubetctl &>/dev/null; then
 	alias k=kubectl
 	complete -o default -F __start_kubectl k
 fi
+
+# ssh
+if command -v ssh-agent &>/dev/null; then
+	eval "$(ssh-agent)" 1>/dev/null
+fi
