@@ -129,7 +129,7 @@ fi
 
 # oh-my-posh
 if command -v oh-my-posh &>/dev/null; then
-	eval "$(oh-my-posh init bash --config ~/crunchy-dotfile/.config/ohmyposh/lean.omp.toml)"
+	eval "$(oh-my-posh init bash --config $HOME/crunchy-dotfile/template/ohmyposh/lean.omp.toml)"
 fi
 
 # kubectl
