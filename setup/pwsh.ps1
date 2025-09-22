@@ -1,43 +1,49 @@
 function SetUpCore {
 	# Set-up pwsh profile
-	$ConfigFile = Join-Path -Path $PSScriptRoot -ChildPath "Microsoft.PowerShell_profile.ps1";
-
+	$CrunchyDir = Split-Path -Parent $PSScriptRoot
+	$ConfigFile = Join-Path -Path $CrunchyDir -ChildPath "/pwsh/Microsoft.PowerShell_profile.ps1";
 	if (-Not $(Test-Path -Path $ConfigFile)) {
 		Write-Host "Something wrong with original profile configuration file"
 		Exit
 	}
 
-	$PowerShellProfilePath = $PROFILE.CurrentUserCurrentHost
-	# Write-Host "PROFILE PATH: " $PowerShellProfilePath
-	if (Test-Path -Path $PowerShellProfilePath) {
+	$ProfilePath = $PROFILE.CurrentUserCurrentHost
+	Write-Host "PROFILE PATH: " $ProfilePath
+	if (Test-Path -Path $ProfilePath) {
 		Write-Host "Delete/back-up existing powershell profile"
 		Exit
 	}
-	# $PowershellDirectoryPath = $(Split-Path -Path $PowerShellProfilePath)
-	$null = New-Item -ItemType HardLink -Path $PowerShellProfilePath -Target $ConfigFile
-	return $PowerShellProfilePath
+	$null = New-Item -ItemType HardLink -Path $ProfilePath -Target $ConfigFile
+	return $ProfilePath
 }
 
 function SetUpDesktop {
-	$OriginalConfigFolder = $PSScriptRoot
-
-	if (-Not $(Test-Path -Path $OriginalConfigFolder)) {
+	$CrunchyDir = Split-Path -Parent $PSScriptRoot
+	$OriginalConfigDir = Join-Path -Path $CrunchyDir -ChildPath "/pwsh/";
+	if (-Not $(Test-Path -Path $OriginalConfigDir)) {
 		Write-Host "Something wrong with original profile folder"
+		Exit
 	}
+
 	$ProfilePath = $PROFILE.CurrentUserCurrentHost
-	$TargetConfigFolder = $(Split-Path -Path $ProfilePath)
-	if (Test-Path -Path $TargetConfigFolder) {
+	Write-Host "PROFILE PATH: " $ProfilePath
+	$TargetConfigDir = $(Split-Path -Path $ProfilePath)
+	if (Test-Path -Path $TargetConfigDir) {
 		Write-Host "PowerShell profile is existing, please back-up/delete"
+		Exit
 	}
-	$null = New-Item -ItemType Junction -Path $TargetConfigFolder -Target $OriginalConfigFolder
+	$null = New-Item -ItemType Junction -Path $TargetConfigDir -Target $OriginalConfigDir
 	return $ProfilePath
 }
 
 function SetUpPowerShellProfile {
+	Write-Host "Setting Up"
 	if ("Core".Equals($PSVersionTable.PSEdition)) {
+		Write-Host "Powershell Core Edition"
 		return SetUpCore;
 	}
 	else {
+		Write-Host "Powershell Desktop Edition"
 		return SetUpDesktop;
 	}
 }
@@ -58,3 +64,4 @@ if (Get-Command winget -ErrorAction SilentlyContinue) {
 $ProfilePath = SetUpPowerShellProfile
 Write-Host "Reload Profile..." -NoNewline
 . $ProfilePath
+Exit 0;
