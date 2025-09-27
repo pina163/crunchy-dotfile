@@ -10,48 +10,48 @@ final_space = true
   type = 'prompt'
   alignment = 'left'
 
-  [[blocks.segments]]
-    template = '{{ if .Root }}<red><i>{{ .Path }}</i>{{ else }}{{ .Path }}{{ end }}'
-    foreground = 'lightBlue'
-    type = 'path'
-    style = 'plain'
+[[blocks.segments]]
+  template = '{{ if .Root }}<red><i>{{ .Path }}</i>{{ else }}{{ .Path }}{{ end }}'
+  foreground = 'lightBlue'
+  type = 'path'
+  style = 'plain'
 
-    [blocks.segments.properties]
-      cache_duration = 'none'
-      style = 'full'
+[blocks.segments.properties]
+  cache_duration = 'none'
+  style = 'full'
 
-  [[blocks.segments]]
-    foreground = 'darkGray'
-    type = 'git'
-    style = 'plain'
+[[blocks.segments]]
+  foreground = 'darkGray'
+  type = 'git'
+  style = 'plain'
 
-    [blocks.segments.properties]
-      branch_icon = ''
-      cache_duration = 'none'
+[blocks.segments.properties]
+  branch_icon = ''
+  cache_duration = 'none'
 
 [[blocks]]
   type = 'prompt'
   alignment = 'right'
 
-  [[blocks.segments]]
-    template = '{{ .FormattedMs }}'
-    type = 'executiontime'
-    style = 'plain'
+[[blocks.segments]]
+  template = '{{ .FormattedMs }}'
+  type = 'executiontime'
+  style = 'plain'
 
-    [blocks.segments.properties]
-      cache_duration = 'none'
-      threshold = 1500
+[blocks.segments.properties]
+  cache_duration = 'none'
+  threshold = 1500
 
 [[blocks]]
   type = 'prompt'
   alignment = 'left'
   newline = true
 
-  [[blocks.segments]]
-    template = '$'
-    foreground = 'yellow'
-    type = 'text'
-    style = 'plain'
+[[blocks.segments]]
+  template = '$'
+  foreground = 'yellow'
+  type = 'text'
+  style = 'plain'
 
-    [blocks.segments.properties]
-      cache_duration = 'none'
+[blocks.segments.properties]
+  cache_duration = 'none'
