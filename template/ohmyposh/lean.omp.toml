@@ -10,6 +10,7 @@ final_space = true
   type = 'prompt'
   alignment = 'left'
   newline = true
+  enable_cursor_positioning = true
 
 [[blocks.segments]]
   template = '{{ if .Root }}<red><i>{{ .Path }}</i>{{ else }}{{ .Path }}{{ end }}'
