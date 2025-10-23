@@ -23,7 +23,7 @@ final_space = true
   style = 'full'
 
 [[blocks.segments]]
-  foreground = 'darkGray'
+  foreground = 'lightRed'
   type = 'git'
   style = 'plain'
 
