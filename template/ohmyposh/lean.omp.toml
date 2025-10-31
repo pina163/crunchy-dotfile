@@ -29,7 +29,6 @@ final_space = true
 
 [blocks.segments.properties]
   branch_icon = ''
-  cache_duration = 'none'
 
 [[blocks]]
   type = 'prompt'
